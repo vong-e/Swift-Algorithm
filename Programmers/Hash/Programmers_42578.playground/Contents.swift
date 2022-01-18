@@ -2,35 +2,40 @@
 //LEVEL 2
 import Foundation
 
+///* 수학공식으로 풀이함. 각 의상종류의 의상개수 + 1 을하여 모두 곱하고 뺴기 1을 해줌 (반드시 1개는 착용해야하므로)
 func solution(_ clothes:[[String]]) -> Int {
     
-    var typePerItem: [String: [String]] = [:]
     var answer: Int = 1
+    var clothesDict: [String: [String]] = [:]
+    var clothesCount: Int = 0
     
-    //1. 옷의 종류: [아이템] 의 형태로 딕셔너리에 저장
     clothes.forEach { cloth in
-        let item = cloth[0]
-        let type = cloth[1]
-        
-        if typePerItem.keys.contains(type) {
-            typePerItem[type]?.append(item)
+        clothesCount += 1
+        if clothesDict[cloth[1]] != nil {
+            clothesDict[cloth[1]]!.append(cloth[0])
         } else {
-            typePerItem[type] = [item]
+            clothesDict[cloth[1]] = [cloth[0]]
         }
     }
+    print("CD:", clothesDict)
+    print("Cloth Count: ", clothesCount)
     
-    //2. 옷의 종류들을 루프 돌면서 경우의 수 추가
-    let types = Array(typePerItem.keys)
-    for i in 0..<types.count {
-        answer *= typePerItem[types[i]]!.count + 1 ///입지 않는경우도 있으므로 +1
+    clothesDict.forEach { (k, v) in
+        print("k: \(k),v : \(v)")
+        answer *= (v.count + 1)
     }
     
-    return answer - 1 //모두 안입는 경우를 빼줌 -1
+    return answer - 1
 }
 
-let clothes1 = [["yellowhat", "headgear"], ["bluesunglasses", "eyewear"], ["green_turban", "headgear"]]
-let clothes2 = [["crowmask", "face"], ["bluesunglasses", "face"], ["smoky_makeup", "face"]]
-let clothes3 = [["a1", "a"], ["a2", "a"], ["b1", "b"], ["b2", "b"], ["b3", "b"], ["c1", "c"]]
-//solution(clothes1) //정답: return 5
-//solution(clothes2) //정답: return 3
-solution(clothes3) //정답: return 23
+//let clothes1 = [["yellowhat", "headgear"], ["bluesunglasses", "eyewear"], ["green_turban", "headgear"]]
+//print("리턴 1: \(solution(clothes1))") // 5
+//
+//let clothes2 = [["crowmask", "face"], ["bluesunglasses", "face"], ["smoky_makeup", "face"]]
+//print("리턴 2: \(solution(clothes2))") // 3
+
+let clothes3 = [["a", "aa"], ["b", "aa"], ["c", "aa"], ["aa", "bb"], ["bb", "bb"], ["cc", "bb"], ["aaa", "cc"], ["bbb", "cc"], ["ccc", "cc"]]
+print("리턴 3: \(solution(clothes3))") // 63
+
+//let clothes4 = [["a", "a"], ["b", "b"], ["c", "c"]]
+//print("리턴 4: \(solution(clothes4))") // 7
