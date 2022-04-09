@@ -56,4 +56,43 @@ let iceMold: [String] = ["00110",
                         "11111",
                         "00000"]
 
-print("한 번에 만들 수 있는 아이스크림의 개수: \(iceCreamCountAtOnce(n: n, m: m, iceMold: iceMold))")
+//print("한 번에 만들 수 있는 아이스크림의 개수: \(iceCreamCountAtOnce(n: n, m: m, iceMold: iceMold))")
+
+
+// 22.04.08 풀이
+func eatFrozonDrink(n: Int, m: Int, mold: [String]) -> Int {
+    var answer = 0
+    
+    let direction = [(0, -1), (0, 1), (-1, 0), (1, 0)] // 상, 하, 좌, 우
+    
+    var iceCreamMold: [[String]] = mold.map { $0.map{ String($0) } }
+    
+    func searchEmptySpace(row: Int, col: Int) {
+        iceCreamMold[row][col] = "1"
+        
+        direction.forEach { (dx, dy) in
+            
+            if row + dx < 0 || row + dx >= n || col + dy < 0 || col + dy >= m {
+                return
+            }
+            
+            if iceCreamMold[row + dx][col + dy] == "0" {
+                searchEmptySpace(row: row + dx, col: col + dy)
+            }
+            
+        }
+    }
+    
+    for row in 0..<n {
+        for col in 0..<m {
+            if iceCreamMold[row][col] == "0" { // 빈공간
+                answer += 1
+                searchEmptySpace(row: row, col: col)
+            }
+        }
+    }
+    
+    return answer
+}
+
+print("한 번에 만들 수 있는 아이스크림의 개수: \(eatFrozonDrink(n: n, m: m, mold: iceMold))")
