@@ -24,29 +24,56 @@ import UIKit
 //}
 
 // 22.04.08 풀이
+//func solution(_ numbers:[Int], _ target:Int) -> Int {
+//    var answer = 0
+//
+//    func dfs(currentValue: Int, depth: Int) {
+//        if depth == numbers.count {
+//            print("DEPTH: \(depth), CurrentValue: \(currentValue), target: \(target)")
+//            if currentValue == target {
+//                print("answer +")
+//                answer += 1
+//            }
+//            return
+//        }
+//
+//        dfs(currentValue: currentValue + numbers[depth], depth: depth + 1)
+//        dfs(currentValue: currentValue - numbers[depth], depth: depth + 1)
+//    }
+//
+//    dfs(currentValue: 0, depth: 0)
+//    return answer
+//}
+//
+//let numbers = [1, 1, 1, 1, 1]
+//let target = 3
+//print("리턴: ", solution(numbers, target)) //5
+
+// 22.11.13 풀이
 func solution(_ numbers:[Int], _ target:Int) -> Int {
     var answer = 0
     
-    func dfs(currentValue: Int, depth: Int) {
+    dfs(depth: 0, currentValue: 0)
+    
+    func dfs(depth: Int, currentValue: Int) {
+        print("depth: \(depth), cuurentValue: \(currentValue)")
         if depth == numbers.count {
-            print("DEPTH: \(depth), CurrentValue: \(currentValue), target: \(target)")
+            print("뎁스 끝 값: \(currentValue)")
+            
             if currentValue == target {
-                print("answer +")
+                print("타겟넘버...! ")
                 answer += 1
             }
             return
         }
         
-        dfs(currentValue: currentValue + numbers[depth], depth: depth + 1)
-        dfs(currentValue: currentValue - numbers[depth], depth: depth + 1)
+        dfs(depth: depth + 1, currentValue: currentValue + numbers[depth])
+        dfs(depth: depth + 1, currentValue: currentValue - numbers[depth])
     }
+
     
-    dfs(currentValue: 0, depth: 0)
     return answer
 }
-
 let numbers = [1, 1, 1, 1, 1]
 let target = 3
 print("리턴: ", solution(numbers, target)) //5
-
-
